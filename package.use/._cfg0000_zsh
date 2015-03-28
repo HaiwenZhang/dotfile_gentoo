@@ -1,0 +1,4 @@
+app-shells/zsh examples
+# required by sys-devel/clang-3.6.0-r100::gentoo
+# required by clang (argument)
+>=sys-devel/llvm-3.6.0 clang
