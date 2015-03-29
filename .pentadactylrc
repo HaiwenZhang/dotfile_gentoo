@@ -1,0 +1,59 @@
+"1.2pre-hg7140-default
+
+loadplugins '\.(js|penta)$'
+group user
+
+loadplugins '\.(js|penta)$'
+group user
+"h，l：切换至左、右标签页
+map -modes=n l -builtin <count><C-n>
+map -modes=n h -builtin <count><C-p>
+
+"w：后退；e：前进
+map -modes=n w -builtin <count>H
+map -modes=n e -builtin <count>L
+
+"vr：重启；vv：关闭
+map -modes=n vr -builtin <count>:restart<Return>
+map -modes=n vv -builtin <count>ZZ<Return>
+
+"输入关键词后自动补全网址
+set complete=l
+
+
+"[[，]]：自动向前、向后翻页
+set nextpattern='\s*下页\s*','\s*下一页\s*','\bnext\b',^>$,'^(>>|»)$','^(>|»)','(>|»)$','\bmore,'
+set previouspattern='\s*上页\s*','\s*上一页\s*','\bprev|previous\b',^<$,'^(<<|«)$','^(<|«)','(<|«)$,'
+
+map <F2>  :set go!=mT<CR>
+
+" 复制、剪贴、粘贴
+map -m n,v,i,c,t <C-a> <Pass>
+map -m n,v,i,c,t <C-c> <Pass>
+map -m i,c,t <C-v> <Pass>
+map -m i,c,t <C-x> <Pass>
+map -m i,c,t <C-z> <Pass>
+
+" Other
+map -builtin j 5j
+map -builtin k 5k
+
+map ] ]] :map [ [[
+
+nmap -builtin y Y
+nmap -builtin Y y
+
+" 收集所有标签地址到剪贴版
+map -description='Yank all locations to the clipboard' -modes=n,v <C-y> -ex yank :tabdo :echo buffer.uri.spec
+
+
+" U list closed tabs
+nmap -builtin U :undo<Space>
+
+"命令行模式禁用输入法
+"style -name commandline-ime http://*,https://* input,textarea {ime-mode: active;}
+style -name commandline-ime chrome://* #dactyl-commandline-command input , #dactyl-statusline-field-commandline-command input {ime-mode: inactive;}
+
+" colorscheme solarized-dark
+
+" vim: set ft=pentadactyl: 
