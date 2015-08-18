@@ -1,0 +1,4 @@
+app-shells/zsh examples
+# required by media-video/vlc-2.2.1::gentoo
+# required by vlc (argument)
+>=sys-libs/zlib-1.2.8-r1 minizip

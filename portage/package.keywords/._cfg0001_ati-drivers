@@ -1,0 +1,5 @@
+x11-drivers/ati-drivers amd64
+# required by numix-icon-theme-circle (argument)
+=x11-themes/numix-icon-theme-circle-9999 **
+# required by numix-icon-theme (argument)
+=x11-themes/numix-icon-theme-9999 **

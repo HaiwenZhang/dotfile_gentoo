@@ -1,0 +1,6 @@
+x11-drivers/ati-drivers amd64
+# required by x11-themes/moka-9999::jorgicio
+# required by moka (argument)
+=x11-themes/faba-9999 **
+# required by moka (argument)
+=x11-themes/moka-9999 **
