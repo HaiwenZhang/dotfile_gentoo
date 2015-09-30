@@ -1,4 +1,0 @@
-app-shells/zsh examples
-# required by app-i18n/sogoupinyin-1.2.0.0042::gentoo-zh
-# required by sogoupinyin (argument)
->=app-i18n/fcitx-4.2.8.6 qt4

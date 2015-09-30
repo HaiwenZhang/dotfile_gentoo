@@ -1,7 +1,0 @@
-app-shells/zsh examples
-# required by gnome-base/gnome-keyring-3.16.0-r1::gentoo
-# required by app-crypt/libsecret-0.18.2::gentoo
-# required by gnome-extra/nm-applet-1.0.2::gentoo
-# required by @selected
-# required by @world (argument)
->=app-crypt/pinentry-0.9.4-r1 gnome-keyring
