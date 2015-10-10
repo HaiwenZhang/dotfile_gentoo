@@ -1,0 +1,225 @@
+"=================================================
+" 插件 
+"=================================================
+
+"加载插件
+lpl "\.(css|js|penta)$"
+
+"chinese-hints
+se hm=custom
+
+"=================================================
+" 界面 
+"=================================================
+
+"命令栏状态栏合一
+se go-=C
+
+"Tab Number
+se go+=n
+
+"搜索建议
+se cpt+=suggestion
+
+"自动补全
+se maxitems=15
+
+"弹窗
+se pps+=resized
+
+"切换导航栏
+nm <F1> -e se go!=T
+
+"=================================================
+" 设置 
+"=================================================
+
+"Vim
+se editor="V.lnk -f +<line> +'sil! execute printf(\":normal 0%s\", <column> -1 ? (<column>-1).\"l\" : \"\")' <file>"
+
+"新标签页打开
+se newtab=all
+
+"翻页
+se nextpattern^="^[下后]一?[页頁张篇章]"
+se previouspattern^="^[上前]一?[页頁张篇章]"
+
+"关闭时清空
+se ss=marks,downloads
+
+"Google Custom Search
+se ht+=.gsc-refinementHeader,.gsc-cursor-page
+
+"=================================================
+" 搜索 
+"=================================================
+
+"默认搜索引擎
+se ds=g
+se suggestengines=g
+
+"Google
+nm s -b S
+
+"搜索所选内容
+com! search-selection,ss -d "Search selected text or the current clipboard contents"
+\ -bang -nargs=? -complete search
+\ exe (<q-bang> ? "o" : "t") + " <args> " + (window.getBrowserSelection() != "" ? window.getBrowserSelection() : dactyl.clipboardRead())
+
+map S <C-c>:ss<Space>
+
+"=================================================
+" 命令 
+"=================================================
+
+"Edge
+com! ed -d "Open with Edge" -nargs=? -j io.run("ed.lnk", args!="" ? [args] : [buffer.URL]);
+
+"=================================================
+" JS 
+"=================================================
+
+"移除左/右侧紧邻标签页
+js <<EOF
+function removeTabs(count, left) {
+    let visibleTabs = tabs.visibleTabs;
+    let removedTabs = [];
+    let index = tabs.index(tabs.getTab(), 1);
+    var count = count ? count : 1;
+
+    if (left)
+	removedTabs = visibleTabs.slice(Math.max(0, index - count), index);
+    else
+	removedTabs = visibleTabs.slice(index + 1, index + count + 1);
+
+    removedTabs.forEach(config.closure.removeTab);
+}
+EOF
+
+nm -c w -j removeTabs(count, true);
+nm -c W -j removeTabs(count, false);
+
+"=================================================
+" 映射
+"=================================================
+
+"滚动
+nm J <scroll-down-line>
+nm K <scroll-up-line>
+map -m output-multiline <S-Space> <C-b>
+
+"Fix scroll
+nm e -j
+\ buffer.focusElement(buffer.doc.documentElement);
+\ dactyl.echomsg("Let me scroll!", null, commandline.FORCE_SINGLELINE);
+
+"标签
+nm h gT
+nm l gt
+nm H -e tabm -1
+nm L -e tabm +1
+nm c <stop-load>
+nm p <tab-open-clipboard-url>
+nm P <open-clipboard-url>
+nm <C-p> -e pin!
+
+"历史
+nm , <A-Left>
+nm . <A-Right>
+nm <lt> <C-o>
+nm > <C-i>
+nm U :u<Space>
+nm <A-d> -e hs
+
+"配置文件
+nm <C-A-e> -j editor.editFileExternally("D:/Firefox/dactyl/_pentadactylrc");
+nm <C-A-r> -j
+\ io.source("D:/Firefox/dactyl/_pentadactylrc");
+\ dactyl.echomsg("_pentadactylc has been loaded", null, commandline.FORCE_SINGLELINE);
+
+"输入模式
+Im <C-9> -b <C-a>
+Im <C-0> <C-e>
+im <A-n> <Down>
+im <A-p> <Up>
+
+"其它
+nm <C-g> <more-page-info>
+nm <S-Esc> -j window.minimize();
+nm ZR -e res
+
+"<Leader>
+nm \\a -e ao
+nm \\d -e dl
+nm \\r -j document.getElementById("reader-mode-button").click();
+nm \\p -j
+\ document.getElementById("pocket-button").click();
+\ dactyl.echomsg("Saved to Pocket", null, commandline.FORCE_SINGLELINE);
+
+"复制粘贴
+nm <C-c> <Pass>
+Im <C-v> <Pass>
+Im <C-z> <Pass>
+map -m n,I <C-a> <Pass>
+nm y <yank-selection>
+nm Y <yank-location>
+
+"Firefox原生标签切换方式
+nm d <C-w>
+nm <C-Tab> <Pass>
+
+"Firefox原生快捷键
+nm <C-d> <Pass>
+nm <C-u> <Pass>
+nm <A-o> <pass-next-key><A-b>
+
+"=================================================
+" 代理
+"=================================================
+
+nm xx -e sp file:///D:/Firefox/pac/patterns.js
+nm xs -e sp file:///D:/Firefox/pac/shadowsocks.js
+nm xj -e sp file:///D:/Firefox/pac/sjtu.js
+nm xd -e sp file:///D:/Firefox/pac/direct.js
+nm xe -e ep
+nm xr -e rp
+
+"=================================================
+" 网站
+"=================================================
+
+"passkeys
+se pk=.*:<CR>
+se pk+="about:config":<Up><Down>
+se pk+=inbox.google.com:ciouerRjknp/?
+se pk+=google.com/calendar:jkt?
+se pk+=feedly.com:jknpovmA?,gh,ga,gl,gd,gp
+se pk+=getpocket.com/a/:jkoa?
+se pk+=www.xiami.com/play:<Space><Left><Right><Up><Down>
+se pk+=\.pdf$:<Left><Right>
+
+"strictfocus
+se sf^="about:config":laissez-faire
+
+"Feedly
+gr! -d="Feedly" -l=feedly.com Feedly
+nm N <pass-next-key>J
+nm P <pass-next-key>K
+
+"pdf.js
+gr! -d="pdf.js" -l=\.pdf$ PDF
+nm e -j content.document.getElementById("viewerContainer").focus();
+nm gi -j buffer.followLink(content.document.getElementById("pageNumber"));
+
+gr pentadactylrc
+
+"=================================================
+" 重定向
+"=================================================
+
+"Wikipedia
+au PageLoadPre
+\ zh.wikipedia.org/zh/ -js
+\ gBrowser.browsers[tab-1].contentDocument.location.href = gBrowser.browsers[tab-1].contentDocument.location.href.replace(/\/zh\//, '/zh-cn/');
+
+" vim: set ft=pentadactyl:
