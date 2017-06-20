@@ -1,0 +1,20 @@
+xrdb -merge ~/.Xresources &
+
+# feh --bg-scale ~/.config/awesome/theme/wallpaper.jpg &
+
+#xmodmap ~/.xmodmap
+
+#sougou pinyin setting
+export XIM=fcitx
+export XIM_PROGRAM=/usr/bin/fcitx
+export XIM_ARGS=""
+export GTK_IM_MODULE=fcitx
+export QT4_IM_MODULE=fcitx
+export DEPENDS="fcitx"
+fcitx -d &
+sogou-qimpanel &
+
+xmodmap ~/.xmodmap
+
+exec dbus-launch --sh-syntax --exit-with-session awesome
+#exec dbus-launch --sh-syntax --exit-with-session xfce4-session
